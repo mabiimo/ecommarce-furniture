@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ProductDetails() {
+export default function ProductDetails({ id, idc }) {
   return (
     <section className="container mx-auto">
       <div className="flex flex-wrap my-4 md:my-12">

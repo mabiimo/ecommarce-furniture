@@ -15,7 +15,7 @@ export default function () {
 
   return (
     <>
-      <Header theme="white" position="absolute " />
+      <Header theme="black" position="absolute" />
       <Hero />
       <BrowseRoom />
       <JustArrived />

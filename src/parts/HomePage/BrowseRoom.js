@@ -26,7 +26,7 @@ function Loading({ ratio = {} }) {
       },
     },
     {
-      id: 3,
+      id: 4,
       ratio: {
         default: "1/9",
         md: "1/4",

@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Header({ theme, position }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
   return (
     <header className={[position, "w-full z-20 px-4"].join(" ")}>
       <div className="container mx-auto py-5">
@@ -13,7 +18,12 @@ export default function Header({ theme, position }) {
           </div>
           <div className="w-full"></div>
           <div className="w-auto">
-            <ul className="fixed bg-white inset-0 flex flex-col invisible items-center justify-center opacity-0 md:visible md:flex-row md:bg-transparent md:relative md:opacity-100 md:flex md:items-center" id="menu">
+            <ul
+              className={`fixed bg-black inset-0 flex flex-col items-center justify-center md:visible md:flex-row md:bg-transparent md:relative md:flex md:items-center ${
+                menuOpen ? "visible opacity-100" : "invisible opacity-100 text-black"
+              }`}
+              id="menu"
+            >
               <li className="mx-3 py-6 md:py-0">
                 <Link to="/showcase" className={["hover:underline", theme === "white" ? "text-black md:text-white" : "text-white md:text-black"].join(" ")}>
                   Showcase
@@ -39,7 +49,7 @@ export default function Header({ theme, position }) {
           <div className="w-auto">
             <ul className="items-center flex">
               <li className="ml-6 block md:hidden">
-                <button id="menu-toggler" className="relative flex z-50 items-center justify-center w-8 h-8 text-black md:text-white focus:outline-none">
+                <button id="menu-toggler" onClick={handleMenuToggle} className="relative flex z-50 items-center justify-center w-8 h-8 text-black md:text-white focus:outline-none">
                   <svg className="fill-current" width="18" height="17" viewBox="0 0 18 17">
                     <path d="M15.9773 0.461304H1.04219C0.466585 0.461304 0 0.790267 0 1.19609C0 1.60192 0.466668 1.93088 1.04219 1.93088H15.9773C16.5529 1.93088 17.0195 1.60192 17.0195 1.19609C17.0195 0.790208 16.5529 0.461304 15.9773 0.461304Z" />
                     <path d="M15.9773 7.68802H1.04219C0.466585 7.68802 0 8.01698 0 8.42281C0 8.82864 0.466668 9.1576 1.04219 9.1576H15.9773C16.5529 9.1576 17.0195 8.82864 17.0195 8.42281C17.0195 8.01692 16.5529 7.68802 15.9773 7.68802Z" />
