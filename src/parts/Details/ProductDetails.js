@@ -7,7 +7,6 @@ export default function ProductDetails() {
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    // Mengambil data dari API menggunakan axios
     axios
       .get(`https://f5a1961e-287e-409b-bb0d-e18cbea75e94.mock.pstmn.io/api/products/${idp}`)
       .then((response) => {
@@ -16,7 +15,7 @@ export default function ProductDetails() {
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [idp]);
 
   if (!product) {
     return (
