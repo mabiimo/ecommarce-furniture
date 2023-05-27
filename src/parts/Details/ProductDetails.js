@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-export default function ProductDetails({ id, idc }) {
+export default function ProductDetails() {
+  const { idp } = useParams();
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    // Mengambil data dari API menggunakan axios
+    axios
+      .get(`https://f5a1961e-287e-409b-bb0d-e18cbea75e94.mock.pstmn.io/api/products/${idp}`)
+      .then((response) => {
+        setProduct(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  if (!product) {
+    return (
+      <div>
+        <div className="w-24 h-3 bg-gray-400 mt-3 rounded-full"></div>
+        <div className="w-36 h-3 bg-gray-400 mt-2 rounded-full"></div>
+      </div>
+    ); // Menampilkan pesan loading jika data belum tersedia
+  }
   return (
     <section className="container mx-auto">
       <div className="flex flex-wrap my-4 md:my-12">
         <div className="w-full md:hidden px-4">
-          <h2 className="text-5xl font-semibold">Chair Thatty</h2>
-          <span className="text-xl">IDR 12.000.000</span>
+          <h2 className="text-5xl font-semibold">{product.title}</h2>
+          <span className="text-xl">IDR {product.price}</span>
         </div>
         <div className="flex-1">
           <div className="slider">
@@ -45,8 +70,8 @@ export default function ProductDetails({ id, idc }) {
           </div>
         </div>
         <div className="flex-1 px-4 md:p-6">
-          <h2 className="text-5xl font-semibold">Chair Thatty</h2>
-          <p className="text-xl">IDR 12.000.000</p>
+          <h2 className="text-5xl font-semibold">{product.title}</h2>
+          <p className="text-xl">IDR {product.price}</p>
 
           <a href="cart.html" className="transition-all duration-200 bg-pink-400 text-black focus:bg-black focus:text-pink-400 rounded-full px-8 py-3 mt-4 inline-flex">
             <svg className="fill-current mr-3" width="26" height="24" viewBox="0 0 26 24">
@@ -61,7 +86,7 @@ export default function ProductDetails({ id, idc }) {
           <hr className="my-8" />
 
           <h6 className="text-xl font-semibold mb-4">About the product</h6>
-          <p className="text-xl leading-7 mb-6">Tailored to a level of perfection synonymous with that of a Savile Row suit and with understated quality in the detail, Jetty has been influenced by timeless 1950s style.</p>
+          <p className="text-xl leading-7 mb-6">{product.description}</p>
           <p className="text-xl leading-7">Providing a subtle nod to the past, Jetty also provides a perfect solution for the way we work today. A comprehensive product family, Jetty features a variety of elegant chairs and sofas.</p>
         </div>
       </div>

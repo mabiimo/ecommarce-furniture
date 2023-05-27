@@ -1,12 +1,10 @@
 import React from "react";
 import Header from "../parts/Header";
 import { Link } from "react-router-dom";
-import Clients from "../parts/Clients";
+
 import Sitemap from "../parts/HomePage/Sitemap";
 import Footer from "../parts/Footer";
 import BreadCrumb from "../components/Breadcrumb/index";
-import ProductDetails from "../parts/Details/ProductDetails";
-import Suggestion from "../parts/Details/Suggestion";
 
 export default function Congratulations() {
   return (

@@ -1,4 +1,5 @@
-import { useReducer, useCallback, useRef } from "react";
+import { useCallback, useReducer, useRef } from "react";
+
 import useSafeDispatch from "./useSafeDispatch";
 
 const defaultState = {
@@ -7,8 +8,11 @@ const defaultState = {
   error: null,
 };
 
-export default function useAsync({ initialState }) {
-  const initialStateRef = useRef({ ...defaultState, ...initialState });
+export default function useAsync(initialState) {
+  const initialStateRef = useRef({
+    ...defaultState,
+    ...initialState,
+  });
 
   const [{ data, status, error }, setState] = useReducer((state, action) => {
     return { ...state, ...action };
@@ -18,15 +22,19 @@ export default function useAsync({ initialState }) {
 
   const run = useCallback(
     (promise) => {
-      if (!promise || !promise.then) throw new Error("the argument passed to useAsync().run must be a promise");
+      if (!promise || !promise.then) throw new Error(`The argument passed to useAsync().run must be a promise`);
       safeSetState({ status: "pending" });
       return promise.then(
         (data) => {
           safeSetState({ data, status: "resolved" });
+
           return data;
         },
         (error) => {
-          safeSetState({ status: "rejected", error: JSON.parse(error.message) });
+          safeSetState({
+            status: "rejected",
+            error: JSON.parse(error.message),
+          });
         }
       );
     },
@@ -48,8 +56,20 @@ export default function useAsync({ initialState }) {
   );
 
   const reset = useCallback(() => {
-    safeSetState(initialStateRef);
+    safeSetState(initialStateRef.current);
   }, [safeSetState]);
 
-  return { data, status, error, run, setData, setError, reset, isIdle: status === "idle", isLoading: status === "idle" || status === "pending", isError: status === "rejected", isSuccess: status === "resolved" };
+  return {
+    data,
+    status,
+    error,
+    run,
+    setData,
+    setError,
+    reset,
+    isIdle: status === "idle",
+    isLoading: status === "idle" || status === "pending",
+    isError: status === "rejected",
+    isSuccess: status === "resolved",
+  };
 }
