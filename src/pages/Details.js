@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../parts/Header";
 import Sitemap from "../parts/HomePage/Sitemap";
 import Footer from "../parts/Footer";
@@ -11,25 +11,19 @@ import axios from "axios";
 
 export default function Details() {
   const { idp } = useParams();
+  const [product, setProduct] = useState(null);
+  const { isLoading } = useAsync();
 
-  const { data, run } = useAsync();
-
-  axios
-    .get(`https://f5a1961e-287e-409b-bb0d-e18cbea75e94.mock.pstmn.io/api/products/${idp}`)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch(
-      (error) => {
-        if (error.response && error.response.data && error.response.data.errors && error.response.data.errors.message) {
-          console.log(error.response.data.errors.message);
-        } else {
-          console.error(error);
-        }
-      },
-      [run, idp]
-    );
-
+  useEffect(() => {
+    axios
+      .get(`https://f5a1961e-287e-409b-bb0d-e18cbea75e94.mock.pstmn.io/api/products/${idp}`)
+      .then((response) => {
+        setProduct(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [idp]);
   return (
     <div>
       <Header theme="black" />
@@ -40,8 +34,8 @@ export default function Details() {
           { url: "/categories/123/products/78888", name: "Details" },
         ]}
       />
-      <ProductDetails data={data} />
-      <Suggestion data={data?.relatedProducts || {}} />
+      <ProductDetails data={product} />
+      <Suggestion data={Array.isArray(product?.relatedProducts) ? product.relatedProducts : []} />
 
       <Sitemap />
       <Footer />

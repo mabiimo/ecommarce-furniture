@@ -5,14 +5,14 @@ import Details from "./pages/Details";
 import Cart from "./pages/Cart";
 import Congratulations from "./pages/Congratulations";
 import NotFound from "./pages/NotFound";
+import Provider from "./helpers/hooks/useGlobalContext";
 
 function App() {
   return (
-    <div className="app">
+    <Provider>
       <Router>
         <Routes>
           <Route exact path="/" Component={Homepage} />
-
           <Route exact path="/categories/:idc" Component={Details} />
           <Route path="/categories/:idc/products/:idp" Component={Details} />
           <Route path="/cart" Component={Cart} />
@@ -20,7 +20,7 @@ function App() {
           <Route path="*" Component={NotFound} />
         </Routes>
       </Router>
-    </div>
+    </Provider>
   );
 }
 
