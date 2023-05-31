@@ -6,7 +6,10 @@ export default function fetchData({ url, method = "GET", host = process.env.REAC
     body,
   }).then(async (response) => {
     const jsonResponse = await response.json();
-    if (response.ok) return jsonResponse;
-    throw new Error(JSON.stringify(jsonResponse));
+    if (response.ok) {
+      return jsonResponse;
+    } else {
+      throw new Error(JSON.stringify(jsonResponse));
+    }
   });
 }
