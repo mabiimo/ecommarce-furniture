@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+
 import useAsync from "../../helpers/hooks/useAsync";
 import fetch from "../../helpers/fetch";
+import "../../helpers/format/thousand";
 
 function Loading({ ratio = {} }) {
   const dummy = [
@@ -33,15 +35,14 @@ function Loading({ ratio = {} }) {
       },
     },
   ];
+
   return dummy.map((item, index) => {
     return (
       <div key={item.id} className={`relative card ${ratio?.wrapper.default?.[item.ratio.default]} ${ratio?.wrapper.md?.[item.ratio.md]}`} style={{ height: index === 0 ? 180 : "auto" }}>
         <div className="bg-gray-300 rounded-lg w-full h-full">
           <div className={`overlay ${ratio?.meta?.[item.ratio.md]}`}>
-            <div>
-              <div className="w-24 h-3 bg-gray-400 mt-3 rounded-full"></div>
-              <div className="w-36 h-3 bg-gray-400 mt-2 rounded-full"></div>
-            </div>
+            <div className="w-24 h-3 bg-gray-400 mt-3 rounded-full"></div>
+            <div className="w-36 h-3 bg-gray-400 mt-2 rounded-full"></div>
           </div>
         </div>
       </div>
@@ -98,7 +99,7 @@ export default function BrowseRoom() {
                   <div className={`overlay ${ratioClassNames?.meta?.[item.ratio.md]}`}>
                     <h5 className="text-lg font-semibold">{item.title}</h5>
                     <span className="">
-                      {item.products} item
+                      {item.products.thousand()} item
                       {item.products > 1 ? "s" : ""}
                     </span>
                   </div>

@@ -8,13 +8,15 @@ import Sitemap from "../parts/HomePage/Sitemap";
 import Footer from "../parts/Footer";
 import useScrollAnchor from "../helpers/hooks/useScrollAnchor";
 import useModalDOM from "../helpers/hooks/useModalDOM";
+import useScrollToTop from "../helpers/hooks/useScrollToTop.js";
+import Documents from "../parts/Document";
 
 export default function Homepage() {
   useScrollAnchor();
   useModalDOM();
-
+  useScrollToTop();
   return (
-    <>
+    <Documents>
       <Header theme="black" position="absolute" />
       <Hero />
       <BrowseRoom />
@@ -22,6 +24,6 @@ export default function Homepage() {
       <Clients />
       <Sitemap />
       <Footer />
-    </>
+    </Documents>
   );
 }

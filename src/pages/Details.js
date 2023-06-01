@@ -8,11 +8,14 @@ import Suggestion from "../parts/Details/Suggestion";
 import { useParams } from "react-router-dom";
 import useAsync from "../helpers/hooks/useAsync";
 import axios from "axios";
+import PageErrorMessage from "../parts/PageErrorMessage";
+
+import Documents from "../parts/Document";
 
 export default function Details() {
   const { idp } = useParams();
   const [product, setProduct] = useState(null);
-  const { isLoading } = useAsync();
+  const { isError, error } = useAsync();
 
   useEffect(() => {
     axios
@@ -25,20 +28,29 @@ export default function Details() {
       });
   }, [idp]);
   return (
-    <div>
-      <Header theme="black" />
-      <BreadCrumb
-        list={[
-          { url: "/", name: "Home" },
-          { url: "/categories/123", name: "Office Room" },
-          { url: "/categories/123/products/78888", name: "Details" },
-        ]}
-      />
-      <ProductDetails data={product} />
-      <Suggestion data={Array.isArray(product?.relatedProducts) ? product.relatedProducts : []} />
+    <Documents>
+      <div>
+        <Header theme="black" />
+        <BreadCrumb
+          list={[
+            { url: "/", name: "Home" },
+            { url: "/categories/123", name: "Office Room" },
+            { url: "/categories/123/products/78888", name: "Details" },
+          ]}
+        />
+        {isError ? (
+          <PageErrorMessage title="Product Not Found" body={error.errors.message} />
+        ) : (
+          <>
+            {" "}
+            <ProductDetails data={product} />
+            <Suggestion data={Array.isArray(product?.relatedProducts) ? product.relatedProducts : []} />
+          </>
+        )}
 
-      <Sitemap />
-      <Footer />
-    </div>
+        <Sitemap />
+        <Footer />
+      </div>
+    </Documents>
   );
 }
